@@ -798,37 +798,37 @@ let output2 = [];
 
 // converts the first input and then pushes it 
 for (let i = 0; i < input2.length; i++) {
-  let front = 0;
-  let back = 127;
+    let front = 0;
+    let back = 127;
 
-  for (let j = 0; j < input2[i].length; j++) {
-    if (input2[i][j] == 'F') {
-      back = Math.floor((front + back) / 2);
-    } else {
-      front = Math.ceil((front + back) / 2);
+    for (let j = 0; j < input2[i].length; j++) {
+        if (input2[i][j] == 'F') {
+            back = Math.floor((front + back) / 2);
+        } else {
+            front = Math.ceil((front + back) / 2);
+        }
     }
-  }
-  output1.push(front);
+    output1.push(front);
 }
 
 // converts the second input and then pushes it
 for (let i = 0; i < input3.length; i++) {
     let left = 0;
     let right = 8;
-  
+
     for (let j = 0; j < input3[i].length; j++) {
-      if (input3[i][j] == 'L') {
-        right = Math.floor((right + left) / 2);
-      } else {
-        left = Math.ceil((right + left) / 2);
-      }
+        if (input3[i][j] == 'L') {
+            right = Math.floor((right + left) / 2);
+        } else {
+            left = Math.ceil((right + left) / 2);
+        }
     }
     output2.push(left);
-  }
+}
 
 // convers the first and second output into their grid spot and then pushes it
 let grid = [];
-for(let i = 0; i < input.length; i++){
+for (let i = 0; i < input.length; i++) {
     grid.push(output1[i] * 8 + output2[i]);
 }
 
@@ -837,12 +837,12 @@ let lowNum = grid[0];
 let highNum = grid[0];
 
 grid.forEach((spot) => {
-  if (spot < lowNum) {
-    lowNum = spot;
-  }
-  if (spot > highNum) {
-    highNum = spot;
-  }
+    if (spot < lowNum) {
+        lowNum = spot;
+    }
+    if (spot > highNum) {
+        highNum = spot;
+    }
 });
 // highNum = 51
 // lowNum = 832
@@ -854,12 +854,12 @@ let missing;
 grid.sort((a, b) => a - b);
 
 grid.every((num, index) => {
-  let nextNum = first + index;
-  if (num !== nextNum) {
-    missing = nextNum;
-    return false;
-  }
-  return true;
+    let nextNum = first + index;
+    if (num !== nextNum) {
+        missing = nextNum;
+        return false;
+    }
+    return true;
 });
 // missing number = 517
 
@@ -867,43 +867,42 @@ grid.every((num, index) => {
 let findLetterCode = (spot) => {
     let row = Math.floor(spot / 8);
     let column = spot % 8;
-  
+
     let code = "";
-    
+
     for (let i = 6; i >= 0; i--) {
-      let bit = (row >> i) & 1;
-      code += (bit === 0 ? "B" : "F");
+        let bit = (row >> i) & 1;
+        code += (bit === 0 ? "B" : "F");
     }
-    
+
     for (let i = 2; i >= 0; i--) {
-      let bit = (column >> i) & 1;
-      code += (bit === 0 ? "L" : "R");
+        let bit = (column >> i) & 1;
+        code += (bit === 0 ? "L" : "R");
     }
-  
+
     return code;
-  };
-  
-  let spot = 517;
-  let letterCode = findLetterCode(spot); //FBBBBBBRLR
-  
+};
+
+let spot = 517;
+let letterCode = findLetterCode(spot); //FBBBBBBRLR
+
 //   finds the codes for the locks
 // grid.splice(466, 0, 517);
 
 let rows = [];
 let cols = [];
 
-for(i=0; i<grid.length;i++){
-    let row = Math.floor(i/8);
-    let col = i % 8;
+for (i = 0; i < grid.length; i++) {
+    let row = Math.floor(grid[i] / 8);
+    let col = grid[i] % 8;
 
     rows.push(row);
     cols.push(col);
 }
-
 let totalRow = rows.reduce((accumulator, currentNumber) => accumulator + currentNumber, 0);
 let totalCol = cols.reduce((accumulator, currentNumber) => accumulator + currentNumber, 0);
 
-let totalGrid = totalCol * totalRow;
+let totalGrid = `${totalCol * totalRow}`.split("0").join("");
 
 console.log(totalGrid);
 
