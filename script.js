@@ -832,7 +832,6 @@ for (let i = 0; i < input.length; i++) {
     grid.push(output1[i] * 8 + output2[i]);
 }
 
-// finds the lowest and highest part in the grid
 let lowNum = grid[0];
 let highNum = grid[0];
 
@@ -844,24 +843,19 @@ grid.forEach((spot) => {
         highNum = spot;
     }
 });
-// highNum = 51
-// lowNum = 832
 
-// finds the missing spot in the grid
-let first = 51;
 let missing;
 
 grid.sort((a, b) => a - b);
 
 grid.every((num, index) => {
-    let nextNum = first + index;
+    let nextNum = 51 + index;
     if (num !== nextNum) {
         missing = nextNum;
         return false;
     }
     return true;
 });
-// missing number = 517
 
 // makes the coordinates of the missing number
 let findLetterCode = (spot) => {
@@ -884,11 +878,9 @@ let findLetterCode = (spot) => {
 };
 
 let spot = 517;
-let letterCode = findLetterCode(spot); //FBBBBBBRLR
+let letterCode = findLetterCode(spot);
 
-//   finds the codes for the locks
-// grid.splice(466, 0, 517);
-
+// finds the codes for the locks
 let rows = [];
 let cols = [];
 
@@ -904,8 +896,30 @@ let totalCol = cols.reduce((accumulator, currentNumber) => accumulator + current
 
 let totalGrid = `${totalCol * totalRow}`.split("0").join("");
 
-console.log(totalGrid);
+// console.logs all answers
+let results = [lowNum, highNum, missing, letterCode, totalGrid].forEach(result => console.log(result));
 
+// next level
+let map = [];
+for (let i = 0; i < 128; i++) {
+    let row = [];
+    for (let j = 0; j < 8; j++) {
+        row.push(".")
+    }
+    map.push(row);
+}
 
+let grid2 = [];
+for (let i = 0; i < input.length; i++) {
+    grid2.push(output1[i] * 8 + output2[i]);
+}
 
+let cords = [];
+for (let i = 0; i < input.length; i++) {
+    cords.push([Math.floor(grid2[i] / 8), grid2[i] % 8]);
+}
 
+cords.map(x => {
+    map[x[0]][x[1]] = '#';
+})
+console.table(map);
